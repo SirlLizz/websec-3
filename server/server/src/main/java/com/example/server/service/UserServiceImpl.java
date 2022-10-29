@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,8 +18,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(User user) {
+    public UUID create(User user) {
         userRepository.save(user);
+        return user.getId();
     }
 
     @Override
@@ -27,12 +29,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User read(int id) {
+    public User read(UUID id) {
         return userRepository.getOne(id);
     }
 
     @Override
-    public boolean update(User user, int id) {
+    public boolean update(User user, UUID id) {
         if (userRepository.existsById(id)) {
             user.setId(id);
             userRepository.save(user);
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(UUID id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;

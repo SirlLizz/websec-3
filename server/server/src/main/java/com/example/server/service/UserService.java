@@ -3,15 +3,16 @@ package com.example.server.service;
 import com.example.server.model.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
-    void create(User user);
+    UUID create(User user);
 
     List<User> readAll();
 
-    User read(int id);
+    User read(UUID id);
 
-    boolean update(User user, int id);
+    boolean update(User user, UUID id);
 
-    boolean delete(int id);
+    boolean delete(UUID id);
 }
