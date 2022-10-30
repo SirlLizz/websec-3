@@ -27,24 +27,35 @@ export default function Register () {
     }
 
 
-    const submitChackin = event => {
+    const submitChackin = async event => {
         event.preventDefault();
-        if(!validator.isEmail(register.email)) {
+        if (!validator.isEmail(register.email)) {
             alert("You did not enter email")
-        } else if(register.password !== register.password2) {
+        } else if (register.password !== register.password2) {
             alert("Repeated password incorrectly")
-        } else if(!validator.isStrongPassword(register.password, {minSymbols: 0})) {
+        } else if (!validator.isStrongPassword(register.password, {minSymbols: 0})) {
             alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
         } else {
-            axios.post("http://localhost:8080/register/", {
-                username: register.username,
-                email: register.email,
-                password: register.password,
-            }).then(res => {
-                console.log(res)
-            }).catch(() => {
+            const response = await fetch("http://localhost:8080/register/", {
+                method: "post",
+                body: JSON.stringify({
+                    name: register.username,
+                    email: register.email,
+                    password: register.password
+                }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }).catch(()=>{
                 alert("An error occurred on the server")
             })
+            const data = await response.json().catch(()=>{
+                console.log("This user is already exist")
+            })
+            if(data!=null){
+                console.log(data)
+            }
+
         }
     }
 

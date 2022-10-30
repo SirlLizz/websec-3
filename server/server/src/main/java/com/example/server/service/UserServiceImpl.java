@@ -2,11 +2,12 @@ package com.example.server.service;
 
 import com.example.server.model.User;
 import com.example.server.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.exception.DataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.DataFormatException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,8 +19,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UUID create(User user) {
-        userRepository.save(user);
+    public UUID create(User user) throws Exception {
+        if(userRepository.findByNameOrEmail(user.getName(), user.getEmail()) == null){
+            userRepository.save(user);
+        }else{
+            throw new DataFormatException();
+        }
         return user.getId();
     }
 
@@ -30,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User read(UUID id) {
-        return userRepository.getOne(id);
+        return userRepository.getReferenceById(id);
     }
 
     @Override
