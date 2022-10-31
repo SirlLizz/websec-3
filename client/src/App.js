@@ -2,9 +2,10 @@ import './App.css';
 import Register from "./pages/Register";
 import {BrowserRouter, Route,  Routes} from "react-router-dom";
 import NavBar from "./components/NavBar";
-import Auth from "./components/Auth";
 import NoMatch from "./pages/NoMatch";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Feed from "./pages/Feed";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Register />} />
+                <Route path="/feed" element={<Feed />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NoMatch />} />
             </Routes>
         </BrowserRouter>

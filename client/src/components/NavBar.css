@@ -1,0 +1,17 @@
+#navbar-after-login{
+    display: none;
+}
+
+.nav-link{
+    color: white;
+}
+
+.navbar-brand{
+    margin-left: 20px;
+    color: white;
+}
+
+.spacer {
+    top: 0;
+    width: 100%;
+}

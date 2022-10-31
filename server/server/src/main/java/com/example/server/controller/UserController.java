@@ -19,9 +19,18 @@ public class UserController {
         this.service = userService;
     }
 
-    @GetMapping("/user")
-    public String getUser(){
-        return service.toString();
+    @PostMapping(value = "/auth", consumes = {"application/json"})
+    public ResponseEntity<UUID> authUser(@RequestBody User user) {
+        try {
+            UUID uuid = service.auth(user);
+            return new ResponseEntity<>(uuid,HttpStatus.OK);
+        } catch (DataFormatException e) {
+            System.out.println("ERROR Data");
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            System.out.println("ERROR");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(value = "/register", consumes = {"application/json"})

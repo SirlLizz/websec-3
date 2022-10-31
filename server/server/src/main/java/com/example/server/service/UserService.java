@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface UserService {
     UUID create(User user) throws Exception;
+    UUID auth(User user) throws Exception;
 
     List<User> readAll();
 

@@ -1,30 +1,38 @@
 import React from 'react';
-import {Button} from "react-bootstrap";
 import Auth from "./Auth";
+import {Link} from "react-router-dom";
+import "./NavBar.css"
 
-class NavBar extends React.Component {
-    render() {
-        return (
-            <div className= "spacer">
-                <section id="nav-bar">
-                    <nav className="navbar navbar-expand-lg navbar-light">
-                        <a className="navbar-brand">NELZYAGRAM</a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
+export default function NavBar() {
 
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav ml-auto">
-                                <span className="nav-item">
-                                    <Auth/>
-                                </span>
-                            </ul>
-                        </div>
-                    </nav>
-                </section>
-            </div>
-        );
-    }
+    return (
+        <div className= "spacer">
+            <section id="nav-bar">
+                <nav className="navbar navbar-expand-lg navbar-dark">
+                    <Link className="navbar-brand" to = "/">NELZYAGRAM</Link>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" id="navbar-toggler">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                     <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav ml-auto" id = "navbar-after-login">
+                            <span className="nav-item">
+                                <Link className="nav-link" to="/feed">Новости</Link>
+                            </span>
+                            <span className="nav-item">
+                                <Link className="nav-link" to="/profile">Профиль</Link>
+                            </span>
+                        </ul>
+                         <ul className="navbar-nav ml-auto" id = "navbar-before-login">
+                            <span className="nav-item">
+                                <Auth/>
+                            </span>
+                         </ul>
+                    </div>
+                </nav>
+            </section>
+        </div>
+    );
+
 }
-export default NavBar;

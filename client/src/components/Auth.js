@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Register from "../pages/Register";
-import validator from "validator";
-import axios from "axios";
-import domain from "../config/default.json";
 import {Link} from "react-router-dom";
 
 export default function Auth(){
-    const DOMAIN_SERVER = domain.server;
-    const DOMAIN_SITE = domain.site;
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const registerUser = () => {setShow(false); Register()}
     const handleShow = () => {setShow(true); }
     const onShow = () => {}
 
@@ -32,26 +26,34 @@ export default function Auth(){
         })
     }
 
-    const submitChackin = event => {
+    const submitAuth = async event => {
         event.preventDefault();
-        if(!validator.isEmail(auth.email)) {
-            alert("You did not enter email")
-        } else if(auth.password == null) {
-            alert("Repeated password incorrectly")
-        }
-        else {
-            axios.post(DOMAIN_SERVER + "/auth/registration/", {
-                username: auth.username,
-                password: auth.password,
-            }).then(res => {
-                if (res.data === true) {
-                    window.location.href = DOMAIN_SITE + "/auth"
-                } else {
-                    alert("There is already a user with this email")
+        if (auth.username === "") {
+            document.getElementById("error_field").textContent = "You did not enter email"
+        } else if (auth.password == null) {
+            document.getElementById("error_field").textContent = "Repeated password incorrectly"
+        } else {
+            const response = await fetch(process.env.REACT_APP_DOMAIN_SERVER + "auth/", {
+                method: "POST",//тут вообще как бы должен быть get, но fetch не хочет делать get c body
+                body: JSON.stringify({
+                    name: auth.username,
+                    password: auth.password
+                }),
+                headers: {
+                    'content-type': 'application/json'
                 }
             }).catch(() => {
                 alert("An error occurred on the server")
             })
+            const data = await response.json().catch(() => {
+                document.getElementById("error_field").textContent = "Error in login or password"
+            })
+            if (data != null) {
+                document.getElementById("navbar-before-login").style.display = "none"
+                document.getElementById("navbar-after-login").style.display = "flex"
+                console.log(data)
+                handleClose();
+            }
         }
     }
 
@@ -63,8 +65,8 @@ export default function Auth(){
                    aria-labelledby="contained-modal-title-vcenter"
                    centered className="modal">
                 <Modal.Body >
-                    <form onSubmit={submitChackin}>
-                        <p>Логин: <input
+                    <form onSubmit={submitAuth}>
+                        <p>Логин или Email: <input
                             type="username"
                             id="username"
                             name="username"
@@ -78,10 +80,11 @@ export default function Auth(){
                             value={auth.password}
                             onChange={changeInputAuth}
                         /></p>
+                        <p id="error_field"></p>
                         <li>
                             <Link to="signup" onClick={handleClose}>Регистрация</Link>
                         </li>
-                        <input type={"submit"} content={"Войти"}/>
+                        <button>Войти</button>
                     </form>
                 </Modal.Body>
             </Modal>

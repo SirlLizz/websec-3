@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import validator from 'validator';
-import domain from "../config/default.json"
 
 export default function Register () {
-    const DOMAIN_SERVER = domain.server;
-    const DOMAIN_SITE = domain.site;
 
     const [register, setRegister] = useState(() => {
         return {
@@ -30,14 +26,14 @@ export default function Register () {
     const submitChackin = async event => {
         event.preventDefault();
         if (!validator.isEmail(register.email)) {
-            alert("You did not enter email")
+            document.getElementById("error_field").textContent = "You did not enter email"
         } else if (register.password !== register.password2) {
-            alert("Repeated password incorrectly")
+            document.getElementById("error_field").textContent = "Repeated password incorrectly"
         } else if (!validator.isStrongPassword(register.password, {minSymbols: 0})) {
-            alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
+            document.getElementById("error_field").textContent = "Password must consist of one lowercase, uppercase letter and number, at least 8 characters"
         } else {
-            const response = await fetch("http://localhost:8080/register/", {
-                method: "post",
+            const response = await fetch(process.env.REACT_APP_DOMAIN_SERVER + "register/", {
+                method: "POST",
                 body: JSON.stringify({
                     name: register.username,
                     email: register.email,
@@ -49,15 +45,16 @@ export default function Register () {
             }).catch(()=>{
                 alert("An error occurred on the server")
             })
-            const data = await response.json().catch(()=>{
-                console.log("This user is already exist")
+            const data = await response.json().catch(() => {
+                document.getElementById("error_field").textContent = "This user is already exist"
             })
-            if(data!=null){
+            if (data != null) {
                 console.log(data)
             }
 
         }
     }
+
 
     return (
 
@@ -93,7 +90,8 @@ export default function Register () {
                     value={register.password2}
                     onChange={changeInputRegister}
                 /></p>
-                <input type="submit"/>
+                <p id="error_field"></p>
+                <input type="submit" content={"Зарегистрироваться"}/>
             </form>
         </div>
     )

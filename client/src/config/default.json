@@ -1,6 +1,0 @@
-{
-  "domain": {
-    "server": "http://localhost:8080/",
-    "site": "http://localhost:3000/"
-  }
-}

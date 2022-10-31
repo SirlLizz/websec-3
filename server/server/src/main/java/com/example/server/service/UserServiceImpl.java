@@ -6,6 +6,7 @@ import org.hibernate.exception.DataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.DataFormatException;
 
@@ -22,10 +23,20 @@ public class UserServiceImpl implements UserService {
     public UUID create(User user) throws Exception {
         if(userRepository.findByNameOrEmail(user.getName(), user.getEmail()) == null){
             userRepository.save(user);
+            return user.getId();
         }else{
             throw new DataFormatException();
         }
-        return user.getId();
+    }
+
+    @Override
+    public UUID auth(User user) throws Exception {
+        User userFromDB = userRepository.findByNameOrEmail(user.getName(), user.getEmail());
+        if(userFromDB != null && Objects.equals(userFromDB.getPassword(), user.getPassword())){
+            return userFromDB.getId();
+        }else{
+            throw new DataFormatException();
+        }
     }
 
     @Override
