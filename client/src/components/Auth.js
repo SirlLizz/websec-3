@@ -26,35 +26,49 @@ export default function Auth(){
         })
     }
 
-    const submitAuth = async event => {
+    const submitAuth = event => {
         event.preventDefault();
-        if (auth.username === "") {
-            document.getElementById("error_field").textContent = "You did not enter email"
-        } else if (auth.password == null) {
-            document.getElementById("error_field").textContent = "Repeated password incorrectly"
-        } else {
-            const response = await fetch(process.env.REACT_APP_DOMAIN_SERVER + "auth/", {
-                method: "POST",//тут вообще как бы должен быть get, но fetch не хочет делать get c body
-                body: JSON.stringify({
-                    name: auth.username,
-                    password: auth.password
-                }),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            }).catch(() => {
-                alert("An error occurred on the server")
-            })
-            const data = await response.json().catch(() => {
-                document.getElementById("error_field").textContent = "Error in login or password"
-            })
-            if (data != null) {
-                document.getElementById("navbar-before-login").style.display = "none"
-                document.getElementById("navbar-after-login").style.display = "flex"
-                console.log(data)
-                handleClose();
+        let ip_user
+        fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(data => {
+            ip_user = data
+            if (auth.username === "") {
+                document.getElementById("error_field").textContent = "You did not enter email"
+            } else if (auth.password == null) {
+                document.getElementById("error_field").textContent = "Repeated password incorrectly"
+            } else {
+                fetch(process.env.REACT_APP_DOMAIN_SERVER + "auth/", {
+                    method: "POST",//тут вообще как бы должен быть get, но fetch не хочет делать get c body
+                    body: JSON.stringify({
+                        ip: ip_user,
+                        browser: navigator.userAgent,
+                        user:{
+                            name: auth.username,
+                            password: auth.password,
+                        }
+                    }),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(
+                    res => res.json().catch(() => {
+                        document.getElementById("error_field").textContent = "Error in login or password"
+                    }).then(
+                        data => {
+                            if (data != null) {
+                                document.getElementById("navbar-before-login").style.display = "none"
+                                document.getElementById("navbar-after-login").style.display = "flex"
+                                console.log(data)
+                                handleClose();
+                            }
+                        }
+                    )
+                ).catch(() => {
+                    alert("An error occurred on the server")
+                })
             }
-        }
+        })
+
+
     }
 
     return (

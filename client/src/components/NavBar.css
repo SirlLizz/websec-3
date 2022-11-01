@@ -11,6 +11,10 @@
     color: white;
 }
 
+.navbar-nav{
+    align-items: flex-end;
+}
+
 .spacer {
     top: 0;
     width: 100%;

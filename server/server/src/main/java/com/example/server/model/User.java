@@ -1,6 +1,8 @@
 package com.example.server.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,16 +17,8 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+/*    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<AuthUser> authUsers;*/
 
     public User(String name, String email, String password) {
         this.id = UUID.randomUUID();
@@ -67,5 +61,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

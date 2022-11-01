@@ -30,16 +30,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UUID auth(User user) throws Exception {
-        User userFromDB = userRepository.findByNameOrEmail(user.getName(), user.getEmail());
-        if(userFromDB != null && Objects.equals(userFromDB.getPassword(), user.getPassword())){
-            return userFromDB.getId();
-        }else{
-            throw new DataFormatException();
-        }
-    }
-
-    @Override
     public List<User> readAll() {
         return userRepository.findAll();
     }

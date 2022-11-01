@@ -32,12 +32,18 @@ export default function Register () {
         } else if (!validator.isStrongPassword(register.password, {minSymbols: 0})) {
             document.getElementById("error_field").textContent = "Password must consist of one lowercase, uppercase letter and number, at least 8 characters"
         } else {
+            let ip_user
+            fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(data => ip_user = data)
             const response = await fetch(process.env.REACT_APP_DOMAIN_SERVER + "register/", {
                 method: "POST",
                 body: JSON.stringify({
-                    name: register.username,
-                    email: register.email,
-                    password: register.password
+                    ip: ip_user,
+                    browser: navigator.userAgent,
+                    user:{
+                        name: register.username,
+                        email: register.email,
+                        password: register.password,
+                    },
                 }),
                 headers: {
                     'content-type': 'application/json'

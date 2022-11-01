@@ -1,8 +1,7 @@
 package com.example.server.controller;
 
-import com.example.server.model.User;
-import com.example.server.service.UserService;
-import org.springframework.data.repository.query.Param;
+import com.example.server.model.AuthUser;
+import com.example.server.service.AuthUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +10,17 @@ import java.util.UUID;
 import java.util.zip.DataFormatException;
 
 @RestController
-public class UserController {
+public class AuthUserController {
 
-    private final UserService service;
+    private final AuthUserService service;
 
-    public UserController(UserService userService) {
-        this.service = userService;
+    public AuthUserController(AuthUserService authUserService) {
+        this.service = authUserService;
     }
 
     @PostMapping(value = "/auth", consumes = {"application/json"})
-    public ResponseEntity<UUID> authUser(@RequestBody User user) {
-        try {
+    public ResponseEntity<UUID> authUser(@RequestBody AuthUser user) {
+        try{
             UUID uuid = service.auth(user);
             return new ResponseEntity<>(uuid,HttpStatus.OK);
         } catch (DataFormatException e) {
@@ -34,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register", consumes = {"application/json"})
-    public ResponseEntity<UUID> createRegistration(@RequestBody User user) {
+    public ResponseEntity<UUID> createRegistration(@RequestBody AuthUser user) {
         try {
             user.setId(UUID.randomUUID());
             UUID uuid = service.create(user);
