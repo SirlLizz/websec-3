@@ -17,8 +17,6 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-/*    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<AuthUser> authUsers;*/
 
     public User(String name, String email, String password) {
         this.id = UUID.randomUUID();

@@ -21,6 +21,9 @@ export default function NavBar() {
                                 <Link className="nav-link" to="/feed">Новости</Link>
                             </span>
                             <span className="nav-item">
+                                <Link className="nav-link" to="/friends">Друзья</Link>
+                            </span>
+                            <span className="nav-item">
                                 <Link className="nav-link" to="/profile">Профиль</Link>
                             </span>
                         </ul>

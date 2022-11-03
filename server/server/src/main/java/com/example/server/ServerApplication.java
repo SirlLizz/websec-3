@@ -13,13 +13,16 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
     }
 
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**")
+                        .allowedMethods("DELETE","GET", "PUT", "POST", "PATCH",  "OPTIONS")
+                        .allowCredentials(true)
+                        .allowedOrigins("*")
+                        .allowedOrigins("http://localhost:3000");
             }
         };
     }

@@ -1,12 +1,11 @@
 package com.example.server.service;
 
 import com.example.server.model.User;
+import com.example.server.repository.FollowRepository;
 import com.example.server.repository.UserRepository;
-import org.hibernate.exception.DataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.DataFormatException;
 
@@ -15,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, FollowRepository followRepository) {
         this.userRepository = userRepository;
     }
 
@@ -46,7 +45,6 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return true;
         }
-
         return false;
     }
 

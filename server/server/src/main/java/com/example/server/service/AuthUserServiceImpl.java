@@ -3,6 +3,7 @@ package com.example.server.service;
 import com.example.server.model.AuthUser;
 import com.example.server.model.User;
 import com.example.server.repository.AuthUserRepository;
+import com.example.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +15,18 @@ import java.util.zip.DataFormatException;
 public class AuthUserServiceImpl implements AuthUserService {
 
     private final AuthUserRepository authUserRepository;
+    private final UserRepository userRepository;
 
-    public AuthUserServiceImpl(AuthUserRepository authUserRepository) {
+    public AuthUserServiceImpl(AuthUserRepository authUserRepository, UserRepository userRepository) {
         this.authUserRepository = authUserRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public UUID create(AuthUser authUser) throws Exception {
-        if(authUserRepository.findAuthUserByNameOrEmail(authUser.getUser().getName(), authUser.getUser().getEmail()) == null){
+    public UUID create(AuthUser authUser) throws DataFormatException {
+        if(authUserRepository.findUserByNameOrEmail(authUser.getUser().getName(), authUser.getUser().getEmail()) == null){
+            authUser.getUser().setId(UUID.randomUUID());
+            userRepository.save(authUser.getUser());
             authUserRepository.save(authUser);
             return authUser.getId();
         }else{
@@ -35,7 +40,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         if(userFromDB != null && Objects.equals(userFromDB.getPassword(), authUser.getUser().getPassword())){
             authUser.setUser(userFromDB);
             authUserRepository.save(authUser);
-            return userFromDB.getId();
+            return authUser.getId();
         }else{
             throw new DataFormatException();
         }
