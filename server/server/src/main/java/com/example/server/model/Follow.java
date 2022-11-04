@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "follow", schema = "public")
 public class Follow {
     @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
     @ManyToOne(targetEntity=User.class)
@@ -17,6 +18,11 @@ public class Follow {
 
     public Follow(int id, User fromUser, User toUser) {
         this.id = id;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
+
+    public Follow(User fromUser, User toUser) {
         this.fromUser = fromUser;
         this.toUser = toUser;
     }

@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User read(String name) {
+        return userRepository.findByName(name);
+    }
+
+    @Override
     public boolean update(User user, UUID id) {
         if (userRepository.existsById(id)) {
             user.setId(id);

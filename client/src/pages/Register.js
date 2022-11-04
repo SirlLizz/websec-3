@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import validator from 'validator';
+import "./Register.css"
 
 export default function Register () {
 
@@ -73,39 +74,77 @@ export default function Register () {
     return (
 
         <div className="form">
-            <h2>Register user:</h2>
+            <h2>Регистрация:</h2>
             <form onSubmit={submitChackin}>
-                <p>Логин: <input
-                    type="username"
-                    id="username"
-                    name="username"
-                    value={register.username}
-                    onChange={changeInputRegister}
-                /></p>
-                <p>Email: <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={register.email}
-                    onChange={changeInputRegister}
-                    formNoValidate
-                /></p>
-                <p>Пароль: <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={register.password}
-                    onChange={changeInputRegister}
-                /></p>
-                <p>Повторите пароль: <input
-                    type="password"
-                    id="password2"
-                    name="password2"
-                    value={register.password2}
-                    onChange={changeInputRegister}
-                /></p>
-                <p id="error_field"></p>
-                <button>Зарегистрироваться</button>
+                <table style={{margin: "auto"}}>
+                    <tr>
+                        <td>
+                            <p style={{margin: "auto"}}>Логин:</p>
+                        </td>
+                        <td>
+                            <input
+                                type="username"
+                                id="username"
+                                name="username"
+                                value={register.username}
+                                onChange={changeInputRegister}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style={{margin: "auto"}}>Email:</p>
+                        </td>
+                        <td>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={register.email}
+                                onChange={changeInputRegister}
+                                formNoValidate
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style={{margin: "auto"}}>Пароль:</p>
+                        </td>
+                        <td>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={register.password}
+                                onChange={changeInputRegister}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style={{margin: "auto"}}>Повторите пароль:</p>
+                        </td>
+                        <td>
+                            <input
+                                type="password"
+                                id="password2"
+                                name="password2"
+                                value={register.password2}
+                                onChange={changeInputRegister}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
+                            <p id="error_field"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
+                            <button className={"register-btn"}>Зарегистрироваться</button>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </div>
     )

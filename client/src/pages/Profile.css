@@ -1,0 +1,26 @@
+.profile_btn {
+    padding: 8px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 6px auto;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+    width: 160px;
+}
+
+.profile_btn:hover{
+    background-color: #555555;
+    color: white;
+}
+
+.profile_btn_div{
+    background-color: #e7e7e7;
+    display: flex;
+
+}

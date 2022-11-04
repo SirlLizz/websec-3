@@ -46,7 +46,7 @@ public class UserController {
                 }
                 return new ResponseEntity<>(friend, HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 }

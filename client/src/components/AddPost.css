@@ -1,0 +1,25 @@
+#error_field{
+    margin: 10px auto;
+    color: red;
+    text-align: center;
+}
+
+.add-btn{
+    padding: 8px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    margin: 0 auto;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.add-btn:hover{
+    background-color: #555555;
+    color: white;
+}

@@ -13,6 +13,7 @@ public interface UserService {
     List<User> readAll();
 
     User read(UUID id);
+    User read(String name);
 
     boolean update(User user, UUID id);
 

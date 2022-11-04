@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import {Link} from "react-router-dom";
+import "./Auth.css"
 
 export default function Auth(){
 
@@ -72,32 +73,58 @@ export default function Auth(){
 
     return (
         <>
-            <button className="contactbtn" onClick={handleShow}>Войти</button>
+            <Link className="nav-link" onClick={handleShow}>Войти</Link>
             <Modal show={show} onShow={onShow} onHide={handleClose}
                    size="lg"
                    aria-labelledby="contained-modal-title-vcenter"
                    centered className="modal">
                 <Modal.Body >
                     <form onSubmit={submitAuth}>
-                        <p>Логин или Email: <input
-                            type="username"
-                            id="username"
-                            name="username"
-                            value={auth.username}
-                            onChange={changeInputAuth}
-                        /></p>
-                        <p>Пароль: <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={auth.password}
-                            onChange={changeInputAuth}
-                        /></p>
-                        <p id="error_field"></p>
-                        <li>
-                            <Link to="signup" onClick={handleClose}>Регистрация</Link>
-                        </li>
-                        <button>Войти</button>
+                        <table style={{margin: "auto"}}>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <p style={{margin: "auto"}}>Логин или Email:</p>
+                                </td>
+                                <td>
+                                    <input
+                                        type="username"
+                                        id="username"
+                                        name="username"
+                                        value={auth.username}
+                                        onChange={changeInputAuth}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <p style={{margin: "auto"}} >Пароль:</p>
+                                </td>
+                                <td>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={auth.password}
+                                        onChange={changeInputAuth}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <p id="error_field"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Link className={"auth-btn"} to="signup" onClick={handleClose}>Регистрация</Link>
+                                </td>
+                                <td>
+                                    <button className={"auth-btn"}>Войти</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </form>
                 </Modal.Body>
             </Modal>
