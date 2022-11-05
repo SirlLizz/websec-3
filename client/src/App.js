@@ -1,12 +1,12 @@
 import './App.css';
-import Register from "./pages/Register";
+import Register from "./pages/Register/Register";
 import {BrowserRouter, Route,  Routes} from "react-router-dom";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import NoMatch from "./pages/NoMatch";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import Feed from "./pages/Feed";
-import Friends from "./pages/Friends";
+import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
+import Feed from "./pages/Feed/Feed";
+import Friends from "./pages/Friends/Friends";
 
 function App() {
 

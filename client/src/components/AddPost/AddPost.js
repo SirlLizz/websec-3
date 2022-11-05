@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import "./Auth.css"
+import "../Auth/Auth.css"
 import "./AddPost.css"
 
 export default function AddPost(){
@@ -43,16 +43,12 @@ export default function AddPost(){
                 credentials: "include"
             }).then(
                 res => {
-                    console.log(res)
-                    res.json().then(
+                    res.json().catch(() => {
+                        document.getElementById("error_field").textContent = "Error in login or password"
+                    }).then(
                         data => {
-/*                            if (data != null) {
-                                console.log(data)
-                                handleClose();
-                                window.location.assign(process.env.REACT_APP_DOMAIN_SITE + "profile");
-                            }*/
-                        }
-                    )
+                            handleClose();
+                        })
                 }).catch(() => {
                 alert("An error occurred on the server")
             })

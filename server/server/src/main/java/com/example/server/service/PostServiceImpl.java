@@ -3,15 +3,18 @@ package com.example.server.service;
 import com.example.server.model.Post;
 import com.example.server.model.User;
 import com.example.server.repository.PostRepository;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -33,7 +36,7 @@ public class PostServiceImpl implements PostService {
         String curDate = LocalDateTime.now().toString();
         String fileName = ("photo_" + curDate + "_" + photo.getOriginalFilename()).replaceAll("[ :]", "-");
         photo.transferTo(new File(uploadDir + "/" + fileName));
-        Post post = new Post(user, lend, fileName, 0);
+        Post post = new Post(user, lend, fileName);
         postRepository.save(post);
         return post.getId();
     }
@@ -50,8 +53,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post read(User user) {
-        return null;
+    public List<Post> read(User user) throws MalformedURLException {
+        List<Post> posts = postRepository.findByUser(user);
+        for(Post post: posts){
+            post.setUser(new User(post.getUser().getName()));
+        }
+        return posts;
+    }
+
+    @Override
+    public Resource loadFileAsResource(String fileName) throws MalformedURLException {
+        Path fileStorageLocation = Paths.get(uploadPath).toAbsolutePath().normalize();
+        Path filePath = fileStorageLocation.resolve(fileName).normalize();
+        return new UrlResource(filePath.toUri());
     }
 
     @Override

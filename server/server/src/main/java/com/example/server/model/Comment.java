@@ -1,38 +1,35 @@
 package com.example.server.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "posts", schema = "public")
-public class Post {
+@Table(name = "comment", schema = "public")
+public class Comment {
     @Id
     @Column(name = "id")
     private UUID id;
     @ManyToOne(targetEntity=User.class)
-    @JoinColumn(name="\"user\"")
+    @JoinColumn(name="from_user")
     private User user;
-    @Column(name = "lend")
-    private String lend;
-    @Column(name = "photo")
-    private String photo;
+    @ManyToOne(targetEntity=Post.class)
+    @JoinColumn(name="post")
+    private Post post;
+    @Column(name = "text_com")
+    private String text;
     @Column(name = "date")
     private LocalDateTime date;
 
-    public Post(User user, String lend, String photo) {
+    public Comment(User user, Post post, String text, LocalDateTime date) {
         id = UUID.randomUUID();
         this.user = user;
-        this.lend = lend;
-        this.photo = photo;
-        this.date = LocalDateTime.now();
+        this.post = post;
+        this.text = text;
+        this.date = date;
     }
 
-    public Post() {
+    public Comment() {
     }
 
     public UUID getId() {
@@ -51,20 +48,20 @@ public class Post {
         this.user = user;
     }
 
-    public String getLend() {
-        return lend;
+    public Post getPost() {
+        return post;
     }
 
-    public void setLend(String lend) {
-        this.lend = lend;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getText() {
+        return text;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public LocalDateTime getDate() {
@@ -77,11 +74,11 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", lend='" + lend + '\'' +
-                ", photo=" + photo +
+                ", post=" + post +
+                ", text='" + text + '\'' +
                 ", date=" + date +
                 '}';
     }

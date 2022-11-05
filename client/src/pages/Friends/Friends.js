@@ -19,12 +19,10 @@ export default class Friends extends Component {
             credentials: "include"
         }).then(
             res => {
-                console.log(res)
                 res.json().catch(() => {
                     document.getElementById("error_field").textContent = "Error in login or password"
                 }).then(
                     data => {
-                        console.log(data)
                         this.setState({
                             isLoaded: true,
                             friendRows: data,
@@ -92,7 +90,7 @@ export default class Friends extends Component {
                     <table style={{margin: "auto"}}>
                         <tbody>
                         {friendRows.map((item, index) => (
-                            <tr>
+                            <tr key={index}>
                                 <td>
                                     <p key={item.name + "_p"} className={"friend_field"}>{item.name}</p>
                                 </td>
