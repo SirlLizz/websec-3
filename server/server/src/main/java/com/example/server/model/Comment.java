@@ -2,7 +2,6 @@ package com.example.server.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "comment", schema = "public")

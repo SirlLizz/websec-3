@@ -41,7 +41,8 @@ export default class Feed extends Component {
             return (
                 <>
                     {userPost.map((item) =>(
-                        <Post id = {item.id}
+                        <Post key = {item.id+"_post"}
+                              id = {item.id}
                               user = {item.user.name}
                               photo = {item.photo}
                               lend = {item.lend}

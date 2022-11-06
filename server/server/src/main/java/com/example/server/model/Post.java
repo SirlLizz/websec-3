@@ -1,11 +1,7 @@
 package com.example.server.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
