@@ -2,7 +2,6 @@ package com.example.server.controller;
 
 import com.example.server.model.AuthUser;
 import com.example.server.model.Follow;
-import com.example.server.model.Friend;
 import com.example.server.model.User;
 import com.example.server.service.AuthUserService;
 import com.example.server.service.FollowService;
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 

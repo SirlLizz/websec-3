@@ -1,6 +1,5 @@
 package com.example.server.service;
 
-import com.example.server.model.Follow;
 import com.example.server.model.Like;
 import com.example.server.model.Post;
 import com.example.server.model.User;

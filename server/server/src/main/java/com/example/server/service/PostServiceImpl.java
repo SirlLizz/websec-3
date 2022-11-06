@@ -1,6 +1,5 @@
 package com.example.server.service;
 
-import com.example.server.model.Follow;
 import com.example.server.model.Post;
 import com.example.server.model.User;
 import com.example.server.repository.PostRepository;
@@ -57,6 +56,7 @@ public class PostServiceImpl implements PostService {
         for(Post post: posts){
             post.setUser(new User(post.getUser().getName()));
         }
+        posts.sort(Post::compareTo);
         return posts;
     }
 
@@ -68,12 +68,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean update(Post post, UUID id) {
-        return false;
-    }
-
-    @Override
     public boolean delete(UUID id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 

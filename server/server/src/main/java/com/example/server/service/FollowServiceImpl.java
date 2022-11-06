@@ -1,14 +1,12 @@
 package com.example.server.service;
 
 import com.example.server.model.Follow;
-import com.example.server.model.Friend;
 import com.example.server.model.User;
 import com.example.server.repository.FollowRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FollowServiceImpl implements FollowService {
@@ -27,6 +25,15 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public List<Follow> readAll() {
         return followRepository.findAll();
+    }
+
+    @Override
+    public List<User> readAllFollow(User user) {
+        List<User> users = new ArrayList<>();
+        for(Follow follow: followRepository.findAllUserFollow(user.getId())){
+            users.add(follow.getToUser());
+        }
+        return users;
     }
 
     @Override

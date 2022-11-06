@@ -5,6 +5,7 @@
     padding: 10px 10px;
     display: flex;
     max-width: 70%;
+    min-width: 310px;
 }
 
 .post-table{

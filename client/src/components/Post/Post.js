@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "./Post.css"
+import Comment from "../Comment/Comment";
 
 export default class Post extends Component {
     constructor(props) {
@@ -10,8 +11,8 @@ export default class Post extends Component {
             date: "",
             lend: "",
             photo: "",
-            countLike: 1,
-            isLoaded: false,
+            countLike: 0,
+            isLoaded: false
         }
     }
 
@@ -32,16 +33,15 @@ export default class Post extends Component {
                 }).then(
                 res_like => {
                     res_like.json().then(
-                        data => {
-                            console.log(data)
+                        fetch_count_like => {
                             this.setState({
                                 isLoaded: true,
                                 photo: URL.createObjectURL(blob_t),
-                                countLike: data,
+                                countLike: fetch_count_like,
                                 id: this.props.id,
                                 user: this.props.user,
                                 date: this.props.date,
-                                lend: this.props.lend,
+                                lend: this.props.lend
                             })
                         }
                     )
@@ -66,7 +66,6 @@ export default class Post extends Component {
                 res => {
                     res.json().then(
                         data => {
-                            console.log(data)
                             document.getElementById("like_btn_"+id).textContent = "👍🏻"+ data
                         }
                     )
@@ -79,18 +78,18 @@ export default class Post extends Component {
             return <div>Loading... </div>
         } else {
             return (
-                <div className={"post-div"}>
-                    <table key={id} className={"post-table"}>
+                <div key={id+"_div"} className={"post-div"}>
+                    <table key={id+"_table"} className={"post-table"}>
                         <thead >
                             <tr>
                                 <td className={"post-thead"}>
                                     <h2 className={"post-user-name"}>
                                         {user}
                                     </h2>
-                                    <h>{
+                                    {
                                         date.slice(8,10) + "." + date.slice(5,7)+"." + date.slice(0,4)+
                                         "  " + date.slice(11,13) + ":" + date.slice(14,16)
-                                    }</h>
+                                    }
                                 </td>
                             </tr>
                         </thead>
@@ -109,7 +108,9 @@ export default class Post extends Component {
                         <tfoot>
                             <tr>
                                 <td className={"post-tfoot"}>
-                                    <button className={"post_btn"}>Комментарии</button>
+                                    <Comment key={id+"_comment"}
+                                             post_id={id}
+                                    />
                                     <button id={"like_btn_"+id} className={"post_btn"} onClick={addLike}>👍🏻{countLike}</button>
                                 </td>
                             </tr>

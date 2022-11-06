@@ -8,8 +8,9 @@ import java.util.UUID;
 @Table(name = "comment", schema = "public")
 public class Comment {
     @Id
+    @GeneratedValue
     @Column(name = "id")
-    private UUID id;
+    private Integer id;
     @ManyToOne(targetEntity=User.class)
     @JoinColumn(name="from_user")
     private User user;
@@ -21,22 +22,21 @@ public class Comment {
     @Column(name = "date")
     private LocalDateTime date;
 
-    public Comment(User user, Post post, String text, LocalDateTime date) {
-        id = UUID.randomUUID();
+    public Comment(User user, Post post, String text) {
         this.user = user;
         this.post = post;
         this.text = text;
-        this.date = date;
+        this.date = LocalDateTime.now();
     }
 
     public Comment() {
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

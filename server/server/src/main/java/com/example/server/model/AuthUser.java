@@ -11,7 +11,7 @@ public class AuthUser {
     private UUID id;
     @ManyToOne(targetEntity=User.class)
     @JoinColumn(name="\"user\"")
-    private User User;
+    private User user;
     @Column(name = "browser")
     private String browser;
     @Column(name = "ip_user")
@@ -23,7 +23,7 @@ public class AuthUser {
 
     public AuthUser(User user, String browser, String ip) {
         id = UUID.randomUUID();
-        User = user;
+        this.user = user;
         this.browser = browser;
         this.ip = ip;
     }
@@ -37,11 +37,11 @@ public class AuthUser {
     }
 
     public com.example.server.model.User getUser() {
-        return User;
+        return user;
     }
 
     public void setUser(com.example.server.model.User user) {
-        User = user;
+        this.user = user;
     }
 
     public String getBrowser() {
@@ -64,7 +64,7 @@ public class AuthUser {
     public String toString() {
         return "AuthUser{" +
                 "id=" + id +
-                ", User=" + User +
+                ", User=" + user +
                 ", browser='" + browser + '\'' +
                 ", ip='" + ip + '\'' +
                 '}';

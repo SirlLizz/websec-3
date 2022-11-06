@@ -25,7 +25,6 @@ export default class Profile extends Component {
                     document.getElementById("error_field").textContent = "Error in login or password"
                 }).then(
                     data => {
-                        console.log(data)
                         this.setState({
                             isLoaded: true,
                             userPost: data,
@@ -72,7 +71,8 @@ export default class Profile extends Component {
                         <AddPost/>
                     </div>
                     {userPost.map((item) =>(
-                        <Post id = {item.id}
+                        <Post key = {item.id+"_post"}
+                              id = {item.id}
                               user = {item.user.name}
                               photo = {item.photo}
                               lend = {item.lend}

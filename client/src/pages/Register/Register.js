@@ -77,73 +77,75 @@ export default function Register () {
             <h2>Регистрация:</h2>
             <form onSubmit={submitChackin}>
                 <table style={{margin: "auto"}}>
-                    <tr>
-                        <td>
-                            <p style={{margin: "auto"}}>Логин:</p>
-                        </td>
-                        <td>
-                            <input
-                                type="username"
-                                id="username"
-                                name="username"
-                                value={register.username}
-                                onChange={changeInputRegister}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style={{margin: "auto"}}>Email:</p>
-                        </td>
-                        <td>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={register.email}
-                                onChange={changeInputRegister}
-                                formNoValidate
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style={{margin: "auto"}}>Пароль:</p>
-                        </td>
-                        <td>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={register.password}
-                                onChange={changeInputRegister}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style={{margin: "auto"}}>Повторите пароль:</p>
-                        </td>
-                        <td>
-                            <input
-                                type="password"
-                                id="password2"
-                                name="password2"
-                                value={register.password2}
-                                onChange={changeInputRegister}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <p id="error_field"></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <button className={"register-btn"}>Зарегистрироваться</button>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p style={{margin: "auto"}}>Логин:</p>
+                            </td>
+                            <td>
+                                <input
+                                    type="username"
+                                    id="username"
+                                    name="username"
+                                    value={register.username}
+                                    onChange={changeInputRegister}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style={{margin: "auto"}}>Email:</p>
+                            </td>
+                            <td>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={register.email}
+                                    onChange={changeInputRegister}
+                                    formNoValidate
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style={{margin: "auto"}}>Пароль:</p>
+                            </td>
+                            <td>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={register.password}
+                                    onChange={changeInputRegister}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style={{margin: "auto"}}>Повторите пароль:</p>
+                            </td>
+                            <td>
+                                <input
+                                    type="password"
+                                    id="password2"
+                                    name="password2"
+                                    value={register.password2}
+                                    onChange={changeInputRegister}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <p id="error_field"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <button className={"register-btn"}>Зарегистрироваться</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </form>
         </div>

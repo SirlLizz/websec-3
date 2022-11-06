@@ -4,7 +4,6 @@ import com.example.server.model.AuthUser;
 import com.example.server.service.AuthUserService;
 import com.example.server.service.FollowService;
 import com.example.server.service.PostService;
-import com.example.server.service.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

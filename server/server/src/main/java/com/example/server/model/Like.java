@@ -7,8 +7,9 @@ import java.util.UUID;
 @Table(name = "like", schema = "public")
 public class Like {
     @Id
+    @GeneratedValue
     @Column(name = "id")
-    private UUID id;
+    private int id;
     @ManyToOne(targetEntity=User.class)
     @JoinColumn(name="from_user")
     private User user;
@@ -17,7 +18,6 @@ public class Like {
     private Post post;
 
     public Like(User user, Post post) {
-        id = UUID.randomUUID();
         this.user = user;
         this.post = post;
     }
@@ -25,11 +25,11 @@ public class Like {
     public Like() {
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
