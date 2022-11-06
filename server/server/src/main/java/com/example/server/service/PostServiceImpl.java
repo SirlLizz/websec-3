@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.model.Follow;
 import com.example.server.model.Post;
 import com.example.server.model.User;
 import com.example.server.repository.PostRepository;
@@ -14,8 +15,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -43,13 +43,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> readAll() {
-        postRepository.findAll();
-        return null;
+        return postRepository.findAll();
     }
 
     @Override
     public Post read(UUID id) {
-        return null;
+        return postRepository.findById(id).orElse(new Post());
     }
 
     @Override
@@ -76,5 +75,19 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean delete(UUID id) {
         return false;
+    }
+
+    @Override
+    public List<Post> readFollow(List<User> users) {
+        List<Post> posts = new ArrayList<>();
+        for(User user:users){
+            List<Post> posts_user = postRepository.findByUser(user);
+            for(Post post: posts_user){
+                post.setUser(new User(post.getUser().getName()));
+                posts.add(post);
+            }
+        }
+        posts.sort(Post::compareTo);
+        return posts;
     }
 }

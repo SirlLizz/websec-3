@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.model.Follow;
 import com.example.server.model.Post;
 import com.example.server.model.User;
 import org.springframework.core.io.Resource;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PostService {
@@ -24,4 +26,6 @@ public interface PostService {
     boolean update(Post post, UUID id);
 
     boolean delete(UUID id);
+
+    List<Post> readFollow(List<User> users);
 }

@@ -71,8 +71,8 @@ export default class Profile extends Component {
                         <button onClick={signout} className={"profile_btn"}>Выйти</button>
                         <AddPost/>
                     </div>
-                    {userPost.map((item, index) =>(
-                        <Post index = {index}
+                    {userPost.map((item) =>(
+                        <Post id = {item.id}
                               user = {item.user.name}
                               photo = {item.photo}
                               lend = {item.lend}

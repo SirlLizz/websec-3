@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "posts", schema = "public")
-public class Post {
+public class Post implements Comparable<Post>{
     @Id
     @Column(name = "id")
     private UUID id;
@@ -84,5 +84,27 @@ public class Post {
                 ", photo=" + photo +
                 ", date=" + date +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Post post) {
+        LocalDateTime otherDate = post.getDate();
+        int cmp = (otherDate.getYear() -this.date.getYear());
+        if (cmp == 0) {
+            cmp = (otherDate.getMonthValue() - this.date.getMonthValue());
+            if (cmp == 0) {
+                cmp = (otherDate.getDayOfMonth() - this.date.getDayOfMonth());
+                if (cmp == 0) {
+                    cmp = ( otherDate.getHour() - this.date.getHour());
+                    if (cmp == 0) {
+                        cmp = (otherDate.getMinute() - this.date.getMinute());
+                        if (cmp == 0) {
+                            cmp = (otherDate.getSecond() - this.date.getSecond());
+                        }
+                    }
+                }
+            }
+        }
+        return cmp;
     }
 }

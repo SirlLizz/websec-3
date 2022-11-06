@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.model.AuthUser;
 import com.example.server.service.AuthUserService;
+import com.example.server.service.FollowService;
 import com.example.server.service.PostService;
 import com.example.server.service.UserService;
 import org.springframework.core.io.Resource;
@@ -22,13 +23,12 @@ import java.util.UUID;
 public class PostController {
     private final PostService service;
     private final AuthUserService authService;
+    private final FollowService followService;
 
-    private final UserService userService;
-
-    public PostController(PostService service, AuthUserService authService, UserService userService) {
+    public PostController(PostService service, AuthUserService authService, FollowService followService) {
         this.service = service;
         this.authService = authService;
-        this.userService = userService;
+        this.followService = followService;
     }
 
     @PostMapping(value = "/new-post")
@@ -49,30 +49,26 @@ public class PostController {
         }
     }
 
-/*    @PostMapping(value = "/add-like")
-    @ResponseBody
-    public ResponseEntity<?> addLikePost(@RequestPart(value = "user") String user,
-                                        @CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) throws IOException {
+    @GetMapping(value = "/user-posts", consumes = {"application/json"})
+    public ResponseEntity<?> getUserPosts(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) {
         try{
             AuthUser authUser = authService.read(UUID.fromString(token));
             if(Objects.equals(authUser.getIp(), ip)){
-                service.addLike(userService.read(user));
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(service.read(authUser.getUser()), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.out.println("ERROR");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
 
-    @GetMapping(value = "/user-posts", consumes = {"application/json"})
-    @ResponseBody
-    public ResponseEntity<?> getUserPosts(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) throws IOException {
+    @GetMapping(value = "/follow-posts", consumes = {"application/json"})
+    public ResponseEntity<?> getFollowPosts(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) {
         try{
             AuthUser authUser = authService.read(UUID.fromString(token));
             if(Objects.equals(authUser.getIp(), ip)){
-                return new ResponseEntity<>(service.read(authUser.getUser()), HttpStatus.OK);
+                return new ResponseEntity<>(service.readFollow(followService.readAllFollow(authUser.getUser())), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
