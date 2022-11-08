@@ -1,0 +1,590 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.4
+-- Dumped by pg_dump version 14.4
+
+-- Started on 2022-11-08 14:05:51
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 210 (class 1259 OID 17288)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id uuid NOT NULL,
+    "user" uuid NOT NULL,
+    browser text NOT NULL,
+    ip_user text NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 17366)
+-- Name: comment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comment (
+    id integer NOT NULL,
+    from_user uuid NOT NULL,
+    text_com text NOT NULL,
+    post uuid NOT NULL,
+    date timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.comment OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 17365)
+-- Name: comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.comment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comment_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3371 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.comment_id_seq OWNED BY public.comment.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 17322)
+-- Name: follow; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.follow (
+    id integer NOT NULL,
+    from_user uuid NOT NULL,
+    to_user uuid NOT NULL
+);
+
+
+ALTER TABLE public.follow OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 17321)
+-- Name: follow_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.follow_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.follow_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3372 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: follow_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.follow_id_seq OWNED BY public.follow.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 17320)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 17353)
+-- Name: like; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."like" (
+    id integer NOT NULL,
+    from_user uuid NOT NULL,
+    post uuid NOT NULL
+);
+
+
+ALTER TABLE public."like" OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 17352)
+-- Name: like_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.like_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.like_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3373 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: like_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.like_id_seq OWNED BY public."like".id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 17340)
+-- Name: posts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.posts (
+    id uuid NOT NULL,
+    "user" uuid NOT NULL,
+    lend text NOT NULL,
+    photo text NOT NULL,
+    date timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.posts OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 17279)
+-- Name: user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."user" (
+    name text NOT NULL,
+    email text,
+    password text NOT NULL,
+    id uuid NOT NULL
+);
+
+
+ALTER TABLE public."user" OWNER TO postgres;
+
+--
+-- TOC entry 3189 (class 2604 OID 17369)
+-- Name: comment id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment ALTER COLUMN id SET DEFAULT nextval('public.comment_id_seq'::regclass);
+
+
+--
+-- TOC entry 3187 (class 2604 OID 17325)
+-- Name: follow id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.follow ALTER COLUMN id SET DEFAULT nextval('public.follow_id_seq'::regclass);
+
+
+--
+-- TOC entry 3188 (class 2604 OID 17356)
+-- Name: like id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."like" ALTER COLUMN id SET DEFAULT nextval('public.like_id_seq'::regclass);
+
+
+--
+-- TOC entry 3357 (class 0 OID 17288)
+-- Dependencies: 210
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('6edd1f36-5754-4f8d-95e8-d2277f3e80e4', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Linux; Android 9) AppleWebKit/537.36 (KHTML, like Gecko) YaBrowser/22.9.5.710 YaBrowser/22.9.5.710 Yowser/2.5 Mobile Safari/537.36', '95.67.167.231');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('34727084-8ea5-4e78-9148-ec6a22469dd9', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaBrowser/22.9.5.710 Yowser/2.5 Safari/537.36', '95.67.167.231');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('a6a62644-c5bc-46a7-8ea1-5ac504c92ef5', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Linux; Android 9) AppleWebKit/537.36 (KHTML, like Gecko) YaBrowser/22.9.5.710 YaBrowser/22.9.5.710 Yowser/2.5 Mobile Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('cac4c0cd-9e49-46d2-b12d-573a3faf0cb5', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaBrowser/22.9.5.710 Yowser/2.5 Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('0b9150b7-3c8e-4da8-ba63-b44753f8d232', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaBrowser/22.9.5.710 Yowser/2.5 Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('3a099c71-bffc-48dd-9665-63391b0651ad', '56dc4602-cc9c-4444-852a-7382e01a24b5', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('df8d3706-0581-4f0d-99eb-527ab262e033', '56dc4602-cc9c-4444-852a-7382e01a24b5', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('6bc56a90-3623-456c-84c8-37411de7d545', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('03208944-b9bf-415a-b815-7bc5bcdef335', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Linux; Android 9) AppleWebKit/537.36 (KHTML, like Gecko) YaBrowser/22.9.5.710 YaBrowser/22.9.5.710 Yowser/2.5 Mobile Safari/537.36', '178.45.174.93');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('49167da8-99dc-402b-9a8e-5dfca173791d', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaBrowser/22.9.5.710 Yowser/2.5 Safari/537.36', '80.234.63.133');
+INSERT INTO public.auth_user (id, "user", browser, ip_user) VALUES ('3d7c2cf1-5464-40b3-a387-68369d2acca4', '3ccb43b6-7b6d-4008-945c-618a3f146eed', 'Mozilla/5.0 (Linux; Android 9) AppleWebKit/537.36 (KHTML, like Gecko) YaBrowser/22.9.5.710 YaBrowser/22.9.5.710 Yowser/2.5 Mobile Safari/537.36', '80.234.71.47');
+
+
+--
+-- TOC entry 3365 (class 0 OID 17366)
+-- Dependencies: 218
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (201, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:07:11.022');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (202, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:07:16.869');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (203, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:10:13.005');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (204, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:10:15.898');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (205, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:17:20.818');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (206, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:18:10.51');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (207, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:18:36.982');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (208, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', 'ds', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:19:46.753');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (209, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:22:54.29');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (210, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:23:33.635');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (211, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:24:11.647');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (212, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:24:56.64');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (213, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:26:21.078');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (214, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '123', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:27:38.823');
+INSERT INTO public.comment (id, from_user, text_com, post, date) VALUES (215, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', 'ghkj', '4fd16010-02e1-435b-a0df-cca1788b1185', '2022-11-07 00:28:08.056');
+
+
+--
+-- TOC entry 3360 (class 0 OID 17322)
+-- Dependencies: 213
+-- Data for Name: follow; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.follow (id, from_user, to_user) VALUES (160, '56dc4602-cc9c-4444-852a-7382e01a24b5', '3ccb43b6-7b6d-4008-945c-618a3f146eed');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (167, 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3', '3ccb43b6-7b6d-4008-945c-618a3f146eed');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (168, 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3', '0762f82e-825f-45c6-a386-eb59c4eb1495');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (216, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '56dc4602-cc9c-4444-852a-7382e01a24b5');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (217, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', 'eb0afe3f-6300-4508-b97d-e3a1f992d2bd');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (218, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '1e84de2a-a0a1-4500-a3c7-d06b99021b29');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (219, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', 'e74a574a-d88b-446b-a4b2-e490a880dd43');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (220, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '0762f82e-825f-45c6-a386-eb59c4eb1495');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (221, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (222, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '3ccb43b6-7b6d-4008-945c-618a3f146eed');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (223, '0762f82e-825f-45c6-a386-eb59c4eb1495', '56dc4602-cc9c-4444-852a-7382e01a24b5');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (224, '0762f82e-825f-45c6-a386-eb59c4eb1495', 'eb0afe3f-6300-4508-b97d-e3a1f992d2bd');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (225, '0762f82e-825f-45c6-a386-eb59c4eb1495', '1e84de2a-a0a1-4500-a3c7-d06b99021b29');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (114, 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3', '48405a23-6240-4ecf-97e7-eb1a9f8d747c');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (116, 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3', '56dc4602-cc9c-4444-852a-7382e01a24b5');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (117, '56dc4602-cc9c-4444-852a-7382e01a24b5', 'eb0afe3f-6300-4508-b97d-e3a1f992d2bd');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (118, '56dc4602-cc9c-4444-852a-7382e01a24b5', '0762f82e-825f-45c6-a386-eb59c4eb1495');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (119, '56dc4602-cc9c-4444-852a-7382e01a24b5', '48405a23-6240-4ecf-97e7-eb1a9f8d747c');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (226, '0762f82e-825f-45c6-a386-eb59c4eb1495', '48405a23-6240-4ecf-97e7-eb1a9f8d747c');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (227, '0762f82e-825f-45c6-a386-eb59c4eb1495', 'e74a574a-d88b-446b-a4b2-e490a880dd43');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (228, '0762f82e-825f-45c6-a386-eb59c4eb1495', 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (229, '0762f82e-825f-45c6-a386-eb59c4eb1495', '3ccb43b6-7b6d-4008-945c-618a3f146eed');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (230, '3ccb43b6-7b6d-4008-945c-618a3f146eed', '56dc4602-cc9c-4444-852a-7382e01a24b5');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (231, '3ccb43b6-7b6d-4008-945c-618a3f146eed', 'eb0afe3f-6300-4508-b97d-e3a1f992d2bd');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (232, '3ccb43b6-7b6d-4008-945c-618a3f146eed', '1e84de2a-a0a1-4500-a3c7-d06b99021b29');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (233, '3ccb43b6-7b6d-4008-945c-618a3f146eed', '48405a23-6240-4ecf-97e7-eb1a9f8d747c');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (234, '3ccb43b6-7b6d-4008-945c-618a3f146eed', 'e74a574a-d88b-446b-a4b2-e490a880dd43');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (235, '3ccb43b6-7b6d-4008-945c-618a3f146eed', '0762f82e-825f-45c6-a386-eb59c4eb1495');
+INSERT INTO public.follow (id, from_user, to_user) VALUES (236, '3ccb43b6-7b6d-4008-945c-618a3f146eed', 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3');
+
+
+--
+-- TOC entry 3363 (class 0 OID 17353)
+-- Dependencies: 216
+-- Data for Name: like; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public."like" (id, from_user, post) VALUES (175, '0762f82e-825f-45c6-a386-eb59c4eb1495', '4b48111a-f3fe-47f7-97f3-2eaf0c5c1247');
+INSERT INTO public."like" (id, from_user, post) VALUES (177, '0762f82e-825f-45c6-a386-eb59c4eb1495', '8fc3648e-28af-46ab-90d7-43095c67e19c');
+INSERT INTO public."like" (id, from_user, post) VALUES (178, '56dc4602-cc9c-4444-852a-7382e01a24b5', '8fc3648e-28af-46ab-90d7-43095c67e19c');
+INSERT INTO public."like" (id, from_user, post) VALUES (179, '56dc4602-cc9c-4444-852a-7382e01a24b5', '7bc42075-686c-46ed-bc97-b6c513752833');
+INSERT INTO public."like" (id, from_user, post) VALUES (180, '56dc4602-cc9c-4444-852a-7382e01a24b5', '4b48111a-f3fe-47f7-97f3-2eaf0c5c1247');
+INSERT INTO public."like" (id, from_user, post) VALUES (181, '56dc4602-cc9c-4444-852a-7382e01a24b5', 'd8f46f31-7b87-41ab-8550-2812efdaca9f');
+INSERT INTO public."like" (id, from_user, post) VALUES (182, '56dc4602-cc9c-4444-852a-7382e01a24b5', '4fd16010-02e1-435b-a0df-cca1788b1185');
+INSERT INTO public."like" (id, from_user, post) VALUES (190, '0762f82e-825f-45c6-a386-eb59c4eb1495', '7bc42075-686c-46ed-bc97-b6c513752833');
+INSERT INTO public."like" (id, from_user, post) VALUES (191, '0762f82e-825f-45c6-a386-eb59c4eb1495', 'd8f46f31-7b87-41ab-8550-2812efdaca9f');
+INSERT INTO public."like" (id, from_user, post) VALUES (192, '0762f82e-825f-45c6-a386-eb59c4eb1495', '4fd16010-02e1-435b-a0df-cca1788b1185');
+INSERT INTO public."like" (id, from_user, post) VALUES (198, '48405a23-6240-4ecf-97e7-eb1a9f8d747c', '7bc42075-686c-46ed-bc97-b6c513752833');
+
+
+--
+-- TOC entry 3361 (class 0 OID 17340)
+-- Dependencies: 214
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.posts (id, "user", lend, photo, date) VALUES ('8fc3648e-28af-46ab-90d7-43095c67e19c', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Я победил!', 'photo_2022-11-05T18-11-37.376_pngwing.com.png', '2022-11-05 18:11:37.377');
+INSERT INTO public.posts (id, "user", lend, photo, date) VALUES ('4b48111a-f3fe-47f7-97f3-2eaf0c5c1247', '0762f82e-825f-45c6-a386-eb59c4eb1495', 'Дз...', 'photo_2022-11-05T18-11-51.288_vbpayTUelh0.jpg', '2022-11-05 18:11:51.289');
+INSERT INTO public.posts (id, "user", lend, photo, date) VALUES ('7bc42075-686c-46ed-bc97-b6c513752833', '3ccb43b6-7b6d-4008-945c-618a3f146eed', '123321', 'photo_2022-11-06T00-09-57.512_vbpayTUelh0.jpg', '2022-11-06 00:09:57.514');
+INSERT INTO public.posts (id, "user", lend, photo, date) VALUES ('d8f46f31-7b87-41ab-8550-2812efdaca9f', '3ccb43b6-7b6d-4008-945c-618a3f146eed', 'выфывфыв
+вфывфывф
+
+вфывфывфыв
+в
+фы
+в
+фы
+в
+фы
+в
+фы', 'photo_2022-11-06T00-17-13.013_photo_2022-11-05T18-11-37.376_pngwing.com.png', '2022-11-06 00:17:13.014');
+INSERT INTO public.posts (id, "user", lend, photo, date) VALUES ('4fd16010-02e1-435b-a0df-cca1788b1185', '56dc4602-cc9c-4444-852a-7382e01a24b5', '1', 'photo_2022-11-06T18-14-14.605_photo_2022-10-17_21-58-11.jpg', '2022-11-06 18:14:14.607');
+
+
+--
+-- TOC entry 3356 (class 0 OID 17279)
+-- Dependencies: 209
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public."user" (name, email, password, id) VALUES ('1', '1', '1', '56dc4602-cc9c-4444-852a-7382e01a24b5');
+INSERT INTO public."user" (name, email, password, id) VALUES ('2', '2@gmail.com', '59X-Rsk-Wfv-a3C', 'eb0afe3f-6300-4508-b97d-e3a1f992d2bd');
+INSERT INTO public."user" (name, email, password, id) VALUES ('3', '3@gmail.com', '59X-Rsk-Wfv-a3C', '1e84de2a-a0a1-4500-a3c7-d06b99021b29');
+INSERT INTO public."user" (name, email, password, id) VALUES ('junior', 'd@gmail.om', 'xKu-STs-2Yc-6g9', '48405a23-6240-4ecf-97e7-eb1a9f8d747c');
+INSERT INTO public."user" (name, email, password, id) VALUES ('333', '333@333.com', 'gX2-peS-q2y-F2M', 'e74a574a-d88b-446b-a4b2-e490a880dd43');
+INSERT INTO public."user" (name, email, password, id) VALUES ('222', '222@222.com', 'Jhm-rxt-CFS-8gM', '0762f82e-825f-45c6-a386-eb59c4eb1495');
+INSERT INTO public."user" (name, email, password, id) VALUES ('777', '777@gmail.com', 'ZM4-nXg-yy8-ydE', 'de69b6ba-9313-498d-b63f-7cb94dd6b1c3');
+INSERT INTO public."user" (name, email, password, id) VALUES ('222333333333333333', '312@gmail.com', 'QQh-any-Xk4-dst', '3ccb43b6-7b6d-4008-945c-618a3f146eed');
+
+
+--
+-- TOC entry 3374 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.comment_id_seq', 1, false);
+
+
+--
+-- TOC entry 3375 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: follow_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.follow_id_seq', 1, false);
+
+
+--
+-- TOC entry 3376 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 236, true);
+
+
+--
+-- TOC entry 3377 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: like_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.like_id_seq', 1, false);
+
+
+--
+-- TOC entry 3206 (class 2606 OID 17373)
+-- Name: comment comment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT comment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3198 (class 2606 OID 17327)
+-- Name: follow follow_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.follow
+    ADD CONSTRAINT follow_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3204 (class 2606 OID 17358)
+-- Name: like like_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 17346)
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3194 (class 2606 OID 17294)
+-- Name: auth_user registration_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT registration_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3191 (class 2606 OID 17287)
+-- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3207 (class 1259 OID 17385)
+-- Name: fki_c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_c ON public.comment USING btree (from_user);
+
+
+--
+-- TOC entry 3195 (class 1259 OID 17333)
+-- Name: fki_frim_user_to_user; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_frim_user_to_user ON public.follow USING btree (from_user);
+
+
+--
+-- TOC entry 3208 (class 1259 OID 17391)
+-- Name: fki_post_to_comment; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_post_to_comment ON public.comment USING btree (post);
+
+
+--
+-- TOC entry 3201 (class 1259 OID 17379)
+-- Name: fki_post_to_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_post_to_like ON public."like" USING btree (post);
+
+
+--
+-- TOC entry 3192 (class 1259 OID 17300)
+-- Name: fki_reg_user_to_user; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_reg_user_to_user ON public.auth_user USING btree ("user");
+
+
+--
+-- TOC entry 3196 (class 1259 OID 17339)
+-- Name: fki_to_user_to_user; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_to_user_to_user ON public.follow USING btree (to_user);
+
+
+--
+-- TOC entry 3202 (class 1259 OID 17364)
+-- Name: fki_г; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "fki_г" ON public."like" USING btree (from_user);
+
+
+--
+-- TOC entry 3209 (class 2606 OID 17295)
+-- Name: auth_user auth_user_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_to_user FOREIGN KEY ("user") REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 3212 (class 2606 OID 17347)
+-- Name: posts fkky2m7ok4jfsuutb8s75iae333; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fkky2m7ok4jfsuutb8s75iae333 FOREIGN KEY ("user") REFERENCES public."user"(id);
+
+
+--
+-- TOC entry 3210 (class 2606 OID 17328)
+-- Name: follow frim_user_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.follow
+    ADD CONSTRAINT frim_user_to_user FOREIGN KEY (from_user) REFERENCES public."user"(id) NOT VALID;
+
+
+--
+-- TOC entry 3216 (class 2606 OID 17386)
+-- Name: comment post_to_comment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT post_to_comment FOREIGN KEY (post) REFERENCES public.posts(id) NOT VALID;
+
+
+--
+-- TOC entry 3214 (class 2606 OID 17374)
+-- Name: like post_to_like; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT post_to_like FOREIGN KEY (post) REFERENCES public.posts(id) NOT VALID;
+
+
+--
+-- TOC entry 3211 (class 2606 OID 17334)
+-- Name: follow to_user_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.follow
+    ADD CONSTRAINT to_user_to_user FOREIGN KEY (to_user) REFERENCES public."user"(id) NOT VALID;
+
+
+--
+-- TOC entry 3215 (class 2606 OID 17380)
+-- Name: comment user_to_comment; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT user_to_comment FOREIGN KEY (from_user) REFERENCES public."user"(id) NOT VALID;
+
+
+--
+-- TOC entry 3213 (class 2606 OID 17359)
+-- Name: like user_to_like; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT user_to_like FOREIGN KEY (from_user) REFERENCES public."user"(id) NOT VALID;
+
+
+-- Completed on 2022-11-08 14:05:51
+
+--
+-- PostgreSQL database dump complete
+--
+
