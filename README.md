@@ -14,6 +14,8 @@
 
 ![image](https://user-images.githubusercontent.com/73231157/200194977-002a8a88-460c-4c39-9865-684e00514d98.png)
 
+.env token
+REACT_APP_DOMAIN_SERVER=http://localhost:8080/;REACT_APP_DOMAIN_SITE=http://localhost:3000/
 
 
 
