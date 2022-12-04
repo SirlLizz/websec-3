@@ -27,7 +27,7 @@ public class FollowController {
     }
 
     @PostMapping (value = "/follow-to-user/{name}", consumes = {"application/json"})
-    public ResponseEntity<?> addFollowToUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip, @PathVariable String name) {
+    public ResponseEntity<?> addFollowToUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip, @PathVariable String name) throws Exception {
         AuthUser authUser = authService.read(UUID.fromString(token));
         if(Objects.equals(authUser.getIp(), ip)){
             User user = service.read(name);
@@ -40,7 +40,7 @@ public class FollowController {
     }
 
     @PostMapping (value = "/unfollow-to-user/{name}", consumes = {"application/json"})
-    public ResponseEntity<?> deleteFollowToUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip, @PathVariable String name) {
+    public ResponseEntity<?> deleteFollowToUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip, @PathVariable String name) throws Exception {
         AuthUser authUser = authService.read(UUID.fromString(token));
         if(Objects.equals(authUser.getIp(), ip)){
             User user = service.read(name);

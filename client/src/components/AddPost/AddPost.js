@@ -89,7 +89,7 @@ export default function AddPost(){
                                             type="file"
                                             name="file"
                                             id="file"
-                                            accept="image/jpeg,image/png"
+                                            accept="image/jpg,image/png, image/gif"
                                         />
                                     </td>
                                 </tr>

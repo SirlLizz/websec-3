@@ -7,8 +7,8 @@ import java.util.UUID;
 import java.util.zip.DataFormatException;
 
 public interface AuthUserService {
-    UUID create(AuthUser user) throws DataFormatException;
-    UUID auth(AuthUser user) throws DataFormatException;
+    UUID create(AuthUser user) throws Exception;
+    UUID auth(AuthUser user) throws Exception;
 
     List<AuthUser> readAll();
 

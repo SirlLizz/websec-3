@@ -81,17 +81,21 @@ public class PostController {
     public ResponseEntity<Resource> serveFile(
             @PathVariable String filename, HttpServletRequest request)
             throws IOException {
-        Resource resource = service.loadFileAsResource(filename);
-        String contentType =request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        if (contentType == null) {
-            contentType = "application/octet-stream";
+        if(filename.matches("([^/:*?<>|\\\\]+(.(jpg|png|gif))$)")){
+            Resource resource = service.loadFileAsResource(filename);
+            String contentType =request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+            }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
+
 }
 

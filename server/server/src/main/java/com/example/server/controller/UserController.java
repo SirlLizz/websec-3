@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/get-all-user", consumes = {"application/json"})
-    public ResponseEntity<?> getAllUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) {
+    public ResponseEntity<?> getAllUser(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) throws Exception {
             AuthUser authUser = authService.read(UUID.fromString(token));
             if(Objects.equals(authUser.getIp(), ip)){
                 List<User> users = service.readAll();

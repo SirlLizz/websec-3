@@ -8,10 +8,10 @@ import java.util.UUID;
 public interface UserService {
     UUID create(User user) throws Exception;
 
-    List<User> readAll();
+    List<User> readAll() throws Exception;
 
-    User read(UUID id);
-    User read(String name);
+    User read(UUID id) throws Exception;
+    User read(String name) throws Exception;
 
     boolean update(User user, UUID id);
 
