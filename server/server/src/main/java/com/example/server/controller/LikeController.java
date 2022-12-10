@@ -7,10 +7,14 @@ import com.example.server.model.User;
 import com.example.server.service.AuthUserService;
 import com.example.server.service.LikeService;
 import com.example.server.service.PostService;
+import com.example.server.source.Decrypt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -20,8 +24,9 @@ public class LikeController {
     private final LikeService service;
     private final AuthUserService authService;
     private final PostService postService;
+    private final Decrypt decrypt = new Decrypt();
 
-    public LikeController(LikeService service, AuthUserService authService, PostService postService) {
+    public LikeController(LikeService service, AuthUserService authService, PostService postService) throws NoSuchPaddingException, NoSuchAlgorithmException {
         this.service = service;
         this.authService = authService;
         this.postService = postService;
@@ -32,10 +37,13 @@ public class LikeController {
     public ResponseEntity<?> addLikePost(@PathVariable("user") String user_name,
                                          @PathVariable("post_id") String post_id,
                                          @CookieValue(value = "token") String token,
-                                         @CookieValue(value = "ip") String ip) {
+                                         HttpServletRequest request) {
         try{
-            AuthUser authUser = authService.read(UUID.fromString(token));
-            if(Objects.equals(authUser.getIp(), ip)){
+            String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
+            AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
+            System.out.println(authUser);
+            if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
+                    Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 User user = authUser.getUser();
                 Post post = postService.read(UUID.fromString(post_id));
                 if(service.checkLike(user, post)){
@@ -55,10 +63,13 @@ public class LikeController {
     @GetMapping(value = "/get-like/{post_id}", consumes = {"application/json"})
     public ResponseEntity<?> getLikePost(@PathVariable("post_id") String post_id,
                                          @CookieValue(value = "token") String token,
-                                         @CookieValue(value = "ip") String ip) {
+                                         HttpServletRequest request) {
         try{
-            AuthUser authUser = authService.read(UUID.fromString(token));
-            if(Objects.equals(authUser.getIp(), ip)){
+            String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
+            AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
+            System.out.println(authUser);
+            if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
+                    Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 Post post = postService.read(UUID.fromString(post_id));
                 return new ResponseEntity<>(service.getCountLike(post), HttpStatus.OK);
             }

@@ -4,6 +4,7 @@ import com.example.server.model.AuthUser;
 import com.example.server.service.AuthUserService;
 import com.example.server.service.FollowService;
 import com.example.server.service.PostService;
+import com.example.server.source.Decrypt;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,8 +26,9 @@ public class PostController {
     private final PostService service;
     private final AuthUserService authService;
     private final FollowService followService;
+    private final Decrypt decrypt = new Decrypt();
 
-    public PostController(PostService service, AuthUserService authService, FollowService followService) {
+    public PostController(PostService service, AuthUserService authService, FollowService followService) throws NoSuchPaddingException, NoSuchAlgorithmException {
         this.service = service;
         this.authService = authService;
         this.followService = followService;
@@ -34,10 +38,13 @@ public class PostController {
     @ResponseBody
     public ResponseEntity<?> addNewPost(@RequestPart(value = "photo") MultipartFile photo,
                                         @RequestPart(value = "lend") String lend,
-                                        @CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) throws IOException {
+                                        @CookieValue(value = "token") String token, HttpServletRequest request) {
         try{
-            AuthUser authUser = authService.read(UUID.fromString(token));
-            if(Objects.equals(authUser.getIp(), ip)){
+            String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
+            AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
+            System.out.println(authUser);
+            if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
+                    Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 service.create(photo, lend, authUser.getUser());
                 return new ResponseEntity<>(HttpStatus.OK);
             }
@@ -49,10 +56,13 @@ public class PostController {
     }
 
     @GetMapping(value = "/user-posts", consumes = {"application/json"})
-    public ResponseEntity<?> getUserPosts(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) {
+    public ResponseEntity<?> getUserPosts(@CookieValue(value = "token") String token, HttpServletRequest request) {
         try{
-            AuthUser authUser = authService.read(UUID.fromString(token));
-            if(Objects.equals(authUser.getIp(), ip)){
+            String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
+            AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
+            System.out.println(authUser);
+            if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
+                    Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 return new ResponseEntity<>(service.read(authUser.getUser()), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -63,10 +73,13 @@ public class PostController {
     }
 
     @GetMapping(value = "/follow-posts", consumes = {"application/json"})
-    public ResponseEntity<?> getFollowPosts(@CookieValue(value = "token") String token, @CookieValue(value = "ip") String ip) {
+    public ResponseEntity<?> getFollowPosts(@CookieValue(value = "token") String token, HttpServletRequest request) {
         try{
-            AuthUser authUser = authService.read(UUID.fromString(token));
-            if(Objects.equals(authUser.getIp(), ip)){
+            String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
+            AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
+            System.out.println(authUser);
+            if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
+                    Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 return new ResponseEntity<>(service.readFollow(followService.readAllFollow(authUser.getUser())), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

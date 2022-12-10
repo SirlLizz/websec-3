@@ -43,16 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User read(UUID id) throws Exception {
-        User user = userRepository.getReferenceById(id);
-        user.setPassword(decrypt.decrypt(user.getPassword()));
-        return user;
+        return userRepository.getReferenceById(id);
     }
 
     @Override
     public User read(String name) throws Exception {
-        User user = userRepository.findByName(name);
-        user.setPassword(decrypt.decrypt(user.getPassword()));
-        return user;
+        return userRepository.findByName(name);
     }
 
     @Override

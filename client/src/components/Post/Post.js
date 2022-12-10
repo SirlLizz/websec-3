@@ -53,7 +53,7 @@ export default class Post extends Component {
     }
 
     render() {
-        let {isLoaded, id, user, date, lend, photo, countLike} = this.state;
+        let {isLoaded, id, user, date, lend, countLike} = this.state;
 
         function addLike(){
             fetch(process.env.REACT_APP_DOMAIN_SERVER + "add-like/"+id+"/"+user, {
@@ -96,7 +96,7 @@ export default class Post extends Component {
                         <tbody>
                         <tr>
                             <td>
-                                <img className={"post-img"} src = {photo} alt={"post_photo"}></img>
+                                <img className={"post-img"} src = {process.env.REACT_APP_DOMAIN_SERVER +"get-photo/" + this.props.photo} alt={"post_photo"}></img>
                             </td>
                         </tr>
                         <tr>
