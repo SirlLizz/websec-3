@@ -32,7 +32,7 @@ public class AuthUserController {
         try{
             user.setBrowser(request.getHeader("user-agent"));
             user.setIp(request.getRemoteAddr());
-            Cookie cookie = new Cookie("token", decrypt.encrypt(service.auth(user).toString()+user.getIp()+user.getBrowser()));
+            Cookie cookie = new Cookie("token", decrypt.encrypt(service.auth(user).toString()+user.getUser().getName()+user.getUser().getEmail()));
             return new ResponseEntity<>(cookie, HttpStatus.OK);
         } catch (DataFormatException e) {
             System.out.println("ERROR Data");

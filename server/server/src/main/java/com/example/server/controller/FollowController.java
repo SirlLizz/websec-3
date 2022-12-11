@@ -35,7 +35,6 @@ public class FollowController {
     public ResponseEntity<?> addFollowToUser(@CookieValue(value = "token") String token, HttpServletRequest request, @PathVariable String name) throws Exception {
         String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
         AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
-        System.out.println(authUser);
         if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
                 Objects.equals(request.getRemoteAddr(), authUser.getIp())){
             User user = service.read(name);

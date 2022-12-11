@@ -16,14 +16,15 @@ public class Decrypt {
 
     private static final String key = "aesEncryptionKey";
     private static final String initVector = "encryptionIntVec";
-
     private final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
     private final SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
     private final IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(StandardCharsets.UTF_8));
+    private final String salt = "x0vShoWB&1Xn4=EnEP0UKh!%Jk2xm)p-dPbUA%WVYpYr7-v&&j7IFUOt)cXm#tIgrrcYI0$3m9brFojQCk^0(mlPe&dzMQ-!OJAPCBVV#bcd^AEFrjRhiAV6LsA!ARFe271hwqNcSI6curARX@(WmQI8D0L*r$sBsKjoXZmSDEgZguXod9gwIC*f@dsE035&uqcya=8bz5QovBvQ9x7H-GOb$^SlSJlQ*QItnleZrHtwBNV(vZZ2lHZ5TGJ!zbTIxJht8bstx*1XDJvJCD*m=xY4Iwi69#ep4KJGj8zFr4MZX%A7Egc.fcua=pCCQPbcqYkT3ShAwza!wHuP-3PIYsBTTH9=WQB2mChMhJlra8f$uqBCWX!kIS(8p3!^r)^Xdx9Gd*iph-tYMFGPsAnb!007@R3h&eq#z5^OJH9Sm1EX=)UZUN1uIvngJVa))-M9Zz7ViZ5u%%^5biv%98HexzBHj66y1OL7W9osWv(XNGVV%J&6JgZm0JO4yY4brPN0z&jkw#L7&Tis1%se5wXf=!@PqYPDh@6.ij*gxedINVIh0Vfj50cJwSejy7HQRw*ZfSV^u8fa5w1s)B%CZbC&W8cKi(Rn7eL(^YSSg!7uJoZ4UwYrcu&6njisVStcw*jKj#sUL=PC3$TdAHL).Rs&4FAPEJ5L.ry8ZPhU.Ih$NPqQCNS21YVc=BDqMO%Mgzr3ay1!HlxgRs)o94mt.r8Mw)txa4ZhBuF1lk*i-cYueHElaCiCC86P71*X)8t@tUkDF*)KqR0I)9r8vknOoODlmdgQTC.wr7H=uf403KgoC7OHqfYw#fsrJKEX7x%MOuN)QEFG*@iEACTtTBlJEKyCEdPBZUl*3E%V3xyKsBTEHW.b4e(#K(Hu)n$JzrGuDnh-VlAQr*a532oQMG6FduBduAyNXPYPf$oUt.BMpHib3V&jvnYgHY@9(-C2I&!OwZn*y#bK^rMP)qYeNRG=HYCoV0F6)-4.98AQX=nfxNA";
 
     public String encrypt(String value) {
         try {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+            value+=salt;
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return encodeBase64String(encrypted);
         } catch (Exception ex) {
@@ -37,7 +38,7 @@ public class Decrypt {
         try {
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             byte[] original = cipher.doFinal(decodeBase64(encrypted));
-            return new String(original);
+            return new String(original).substring(0, new String(original).length()-999);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -48,7 +49,7 @@ public class Decrypt {
         Decrypt decrypter = new Decrypt();
         String encrypted = decrypter.encrypt("111111Im");
         System.out.println(encrypted);
-        String decrypted = decrypter.decrypt("rQq/pJ1iooED9f6I5oSPIvVR4tYHkdqHxjU8K/zi8KRWFqrkyE/rBOP12xzhVWqapWD0S9kIxt7OpBiJZWtjd7I3LZWcC52v1WGxSTw697lhejtl37j5uk9w3zkrpIE+qCep02PPmjbjgSnalO3RSoIS5VFgBYWTXmnGrSNTbx4Otj2pOr5ZD4caH+5LnlHy4A+9LKWh0OsC6CdhJcIE1ZgMqlUaXP38jna2Ugt0AiEvGpnY+mDfX7yMCgdmt4a8uX3PUfSOTOoGaEUIx87WIzCGzF5O+ryxJdt/J2kCndz8gcKARZg0dxQ7Hk9Me4aZg9FYJDlfPfC60LSGBo/+g6TfIu05KFOWKE85E5eMbXntlP1tLBom/b3Ob0RrcTH5Aa28juC39DGyfLmj4lZEC5euT1fwmL+e/R15rNR35/OvwKzGMkfGUwskQGayIXihJjRD6HiYKq9lCtD8dRmH3AhKL1oECT0UuSG/yHhrXoBVttxDMQ4u3ZahlqoUazj+Wkvnv3+tCt4I+iOovSwo3OEl2VsJ6cH3OGCdyxn8y5AalK2evziHAfP5Tm0Wl7AbcPWg2tD6WQYXmUaVzVB2jd2pDjHii+l3mzc/ypef3nIA2EQG4lVRihHS9d3J5P00lYnoeiV0rWQDhSZAtIopP9CCIDSL+D9ann/Yb3eV+CRIj6MpDdhunn1pkImkGT5KvGdq24QuBLd5LZurATADYHoQ1vBVR2U5yRuUDJUGzFpjmFyMbTb6NHi66E3x9eYIN/uy4seunUnTYnmocCbyAUN77xmrP06Kku0EZhBGRZk4lC9O5i1e4mwDvXvSbbuKbORlRU4fhVtkr4QdlaDY9Otkq7g12EwXeGV9wMj8/g+qnRc7C46pJ6pxkxyTXJDRZEMWBVnhx1O8zA3l6anl1tWJlxBgHD26J8uyoS1c5oqtHgMrkrZwMNh/vPT4OXB94mPYPnSdK9o4bVQzdJR/JFI8z9GsxOlKdXuQ2nYnPwNS15i3K0mX/M/uv4hdY67NfC9ttkfuhCY1SWYlmhMJ9Jf2pXUgMBRPbl7D4Xe9qGieSEEi+yS1zI2U5hSlf4rhMaZqa/q80m4IJJLCbylXAlbO90Wr3xCsfSpNibVKVVoQjBi6L+K31WUANI5IEqqMajMoY8vxf7JT7k8PwSsbPX/DJAqriWli/n0y8IRuj6Vo/+e6EPoLEbiIx73Y6Yq/JiKeX5NXCmAfpZxueqeo+2iipkiid5T3Oeuq4wlASaM1iyywiN7hLUjGAB046kd7");
+        String decrypted = decrypter.decrypt(encrypted);
         System.out.println(decrypted);
     }
 }

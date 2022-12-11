@@ -42,7 +42,6 @@ public class PostController {
         try{
             String tokenDecrypt = decrypt.decrypt(token).substring(0,36);
             AuthUser authUser = authService.read(UUID.fromString(tokenDecrypt));
-            System.out.println(authUser);
             if(Objects.equals(request.getHeader("user-agent"), authUser.getBrowser()) &&
                     Objects.equals(request.getRemoteAddr(), authUser.getIp())){
                 service.create(photo, lend, authUser.getUser());
